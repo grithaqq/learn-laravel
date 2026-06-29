@@ -1,59 +1,113 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Web Service API (Laravel 11)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Repositori ini adalah hasil akhir dari Praktikum Web Service, yang berisi implementasi RESTful API lengkap menggunakan Framework Laravel 11. 
 
-## About Laravel
+Fitur yang tersedia dalam API ini meliputi:
+1. **Autentikasi JWT (JSON Web Token)** untuk keamanan rute.
+2. **Sistem Logging Otomatis** menggunakan Middleware untuk mencatat semua *request* (termasuk menyensor *password*).
+3. **CRUD Lengkap** untuk mengelola entitas `Province`, `City`, dan `District`.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🛠️ Persyaratan Sistem (Prerequisites)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Sebelum menjalankan *project* ini, pastikan laptop Anda sudah terinstal:
+- **PHP** (Minimal versi 8.2)
+- **Composer** (Package Manager untuk PHP)
+- **XAMPP / MySQL** (Untuk Database)
+- **Git**
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## 🚀 Cara Instalasi & Menjalankan Project
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Ikuti langkah-langkah di bawah ini untuk menjalankan *project* ini di laptop Anda secara lokal.
 
-## Laravel Sponsors
+### 1. Kloning Repositori
+Buka terminal (Git Bash / CMD / Terminal) dan jalankan:
+```bash
+git clone <URL_GITHUB_REPO_INI>
+cd webservice-api
+```
+*(Jangan lupa ganti `<URL_GITHUB_REPO_INI>` dengan URL asli repositori Github ini).*
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 2. Install Dependensi (Vendor)
+Jalankan perintah Composer untuk mengunduh semua *library* pendukung:
+```bash
+composer install
+```
 
-### Premium Partners
+### 3. Konfigurasi Environment (`.env`)
+Laravel membutuhkan file konfigurasi rahasia bernama `.env`.
+Duplikat file `.env.example` dan ubah namanya menjadi `.env`:
+```bash
+cp .env.example .env
+```
+*(Di Windows, Anda juga bisa melakukan *Copy-Paste* file `.env.example` secara manual melalui File Explorer lalu me-rename hasilnya menjadi `.env`).*
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Buka file `.env` di teks editor (seperti VSCode), dan pastikan konfigurasi databasenya sesuai dengan komputer Anda:
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=webservice      # Ganti sesuai nama database Anda
+DB_USERNAME=root
+DB_PASSWORD=                # Kosongkan jika XAMPP default
+```
+**PENTING:** Pastikan juga `SESSION_DRIVER` dan `CACHE_STORE` diatur ke `file`, bukan `database`:
+```env
+SESSION_DRIVER=file
+CACHE_STORE=file
+```
 
-## Contributing
+### 4. Setup Database
+1. Buka **XAMPP Control Panel**, nyalakan modul **MySQL** dan **Apache**.
+2. Buka Browser, akses `http://localhost/phpmyadmin/`.
+3. Buat database baru bernama `webservice` (sesuai `DB_DATABASE` di `.env`).
+4. **Import** file database bawaan praktikum (`.sql`) yang diberikan oleh dosen/asisten praktikum Anda ke dalam database tersebut.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 5. Generate Application Key & JWT Secret Key
+Jalankan dua perintah berikut secara bergantian di terminal Anda untuk menghasilkan kunci enkripsi keamanan:
+```bash
+php artisan key:generate
+php artisan jwt:secret
+```
 
-## Code of Conduct
+### 6. Jalankan Server Lokal
+Setelah semuanya siap, hidupkan server lokal Laravel:
+```bash
+php artisan serve
+```
+Aplikasi API Anda sekarang sudah berjalan di `http://127.0.0.1:8000`.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+## 📖 Dokumentasi API & Cara Testing Menggunakan Postman
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Untuk melakukan pengetesan seluruh *endpoint* (Modul 13), sangat disarankan untuk menggunakan **Postman**. 
 
-## License
+### Daftar *Endpoint* Tersedia:
+| Method | Endpoint                 | Deskripsi                       | Butuh Auth (Token)? |
+|--------|--------------------------|---------------------------------|---------------------|
+| POST   | `/api/login`             | Login & mendapatkan Token       | Tidak               |
+| GET    | `/api/me`                | Cek profil user saat ini        | Ya                  |
+| GET    | `/api/refresh`           | Memperbarui Token               | Ya                  |
+| GET    | `/api/logout`            | Logout (menghapus sesi)         | Ya                  |
+| GET    | `/api/province`          | Mengambil semua data provinsi   | Ya                  |
+| POST   | `/api/province`          | Menambahkan data provinsi baru  | Ya                  |
+| PUT    | `/api/province/{id}`     | Mengupdate seluruh data provinsi| Ya                  |
+| DELETE | `/api/province/{id}`     | Menghapus data provinsi         | Ya                  |
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+*(Perintah CRUD yang sama juga berlaku untuk rute `/api/city` dan `/api/district`).*
+
+### Aturan Wajib Postman:
+1. **Header `Accept`:** Karena ini adalah API, Anda wajib menambahkan Header `Accept` bernilai `application/json` pada **SETIAP** *request* di Postman.
+2. **Bearer Token:** Untuk *endpoint* yang membutuhkan Auth (di kolom "Ya" pada tabel atas), Anda wajib memasukkan token hasil dari `/api/login` ke tab **Authorization -> Bearer Token**.
+
+### Cara Menerbitkan (Publish) Dokumentasi di Postman:
+Jika Anda ingin menyusun ini menjadi Dokumentasi Web yang bisa diakses publik (Untuk penilaian praktikum):
+1. Masukkan semua *Request* yang telah Anda uji di atas ke dalam satu **Collection** di Postman.
+2. Pastikan Anda telah mengisi deskripsi (*Description*) di setiap *request*.
+3. Klik tanda titik tiga (`...`) di samping nama *Collection* Anda, lalu pilih menu **View Documentation**.
+4. Di pojok kanan atas layar dokumentasi, klik tombol **Publish**.
+5. Salin *URL / Link* yang diberikan oleh Postman. *Link* itulah dokumentasi API Anda!
