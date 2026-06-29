@@ -103,11 +103,3 @@ Untuk melakukan pengetesan seluruh *endpoint* (Modul 13), sangat disarankan untu
 ### Aturan Wajib Postman:
 1. **Header `Accept`:** Karena ini adalah API, Anda wajib menambahkan Header `Accept` bernilai `application/json` pada **SETIAP** *request* di Postman.
 2. **Bearer Token:** Untuk *endpoint* yang membutuhkan Auth (di kolom "Ya" pada tabel atas), Anda wajib memasukkan token hasil dari `/api/login` ke tab **Authorization -> Bearer Token**.
-
-### Cara Menerbitkan (Publish) Dokumentasi di Postman:
-Jika Anda ingin menyusun ini menjadi Dokumentasi Web yang bisa diakses publik (Untuk penilaian praktikum):
-1. Masukkan semua *Request* yang telah Anda uji di atas ke dalam satu **Collection** di Postman.
-2. Pastikan Anda telah mengisi deskripsi (*Description*) di setiap *request*.
-3. Klik tanda titik tiga (`...`) di samping nama *Collection* Anda, lalu pilih menu **View Documentation**.
-4. Di pojok kanan atas layar dokumentasi, klik tombol **Publish**.
-5. Salin *URL / Link* yang diberikan oleh Postman. *Link* itulah dokumentasi API Anda!
